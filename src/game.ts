@@ -12,7 +12,5 @@ export const creatingApp = () => {
   new LandBuilder(app).buildLand();
   const mainPerson = new MainPerson(app);
   mainPerson.buildPerson();
-  // mainPerson.personMotion();
-  mainPerson.keyboardListener();
   return app;
 };
