@@ -1,4 +1,5 @@
 {
   "preset": "ts-jest",
-  "setupFiles": ["<rootDir>/setup-jest.js"]
+  "runner": "jest-electron/runner",
+  "testEnvironment": "jest-electron/environment"
 }

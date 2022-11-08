@@ -913,7 +913,7 @@ ServerSignature Off
 
 #     RewriteCond %{HTTP:Accept-Encoding} br
 #     RewriteCond %{REQUEST_FILENAME}\.br -f
-#     RewriteRule \.(css|ics|js|json|html|svg)$ %{REQUEST_URI}.br [L]
+#     RewriteRule \.(css|ics|src|json|html|svg)$ %{REQUEST_URI}.br [L]
 
 #     # Prevent mod_deflate double gzip
 #     RewriteRule \.br$ - [E=no-gzip:1]
@@ -924,7 +924,7 @@ ServerSignature Off
 #             # Serve correct content types
 #             AddType text/css              css.br
 #             AddType text/calendar         ics.br
-#             AddType text/javascript       js.br
+#             AddType text/javascript       src.br
 #             AddType application/json      json.br
 #             AddType text/html             html.br
 #             AddType image/svg+xml         svg.br
@@ -932,7 +932,7 @@ ServerSignature Off
 #             # Serve correct content charset
 #             AddCharset utf-8 .css.br \
 #                              .ics.br \
-#                              .js.br \
+#                              .src.br \
 #                              .json.br
 #         </IfModule>
 
@@ -968,7 +968,7 @@ ServerSignature Off
 
 #     RewriteCond %{HTTP:Accept-Encoding} gzip
 #     RewriteCond %{REQUEST_FILENAME}\.gz -f
-#     RewriteRule \.(css|ics|js|json|html|svg)$ %{REQUEST_URI}.gz [L]
+#     RewriteRule \.(css|ics|src|json|html|svg)$ %{REQUEST_URI}.gz [L]
 
 #     # Prevent mod_deflate double gzip
 #     RewriteRule \.gz$ - [E=no-gzip:1]
@@ -983,7 +983,7 @@ ServerSignature Off
 #             # Serve correct content types
 #             AddType text/css              css.gz
 #             AddType text/calendar         ics.gz
-#             AddType text/javascript       js.gz
+#             AddType text/javascript       src.gz
 #             AddType application/json      json.gz
 #             AddType text/html             html.gz
 #             AddType image/svg+xml         svg.gz
@@ -991,7 +991,7 @@ ServerSignature Off
 #             # Serve correct content charset
 #             AddCharset utf-8 .css.gz \
 #                              .ics.gz \
-#                              .js.gz \
+#                              .src.gz \
 #                              .json.gz
 #         </IfModule>
 
@@ -1181,16 +1181,16 @@ FileETag None
 # Allow concatenation from within specific files.
 #
 # If you have the following lines in a file called, for example,
-# `main.combined.js`:
+# `main.combined.src`:
 #
-#     <!--#include file="js/jquery.js" -->
-#     <!--#include file="js/jquery.timer.js" -->
+#     <!--#include file="src/jquery.src" -->
+#     <!--#include file="src/jquery.timer.src" -->
 #
 # Apache will replace those lines with the content of the specified files.
 
 # <IfModule mod_include.c>
 
-#     <FilesMatch "\.combined\.js$">
+#     <FilesMatch "\.combined\.src$">
 #         Options +Includes
 #         AddOutputFilterByType INCLUDES application/javascript \
 #                                        application/x-javascript \
@@ -1220,6 +1220,6 @@ FileETag None
 # <IfModule mod_rewrite.c>
 #     RewriteEngine On
 #     RewriteCond %{REQUEST_FILENAME} !-f
-#     RewriteRule ^(.+)\.(\w+)\.(bmp|css|cur|gif|ico|jpe?g|m?js|a?png|svgz?|webp|webmanifest)$ $1.$3 [L]
+#     RewriteRule ^(.+)\.(\w+)\.(bmp|css|cur|gif|ico|jpe?g|m?src|a?png|svgz?|webp|webmanifest)$ $1.$3 [L]
 # </IfModule>
 

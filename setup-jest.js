@@ -1,5 +1,4 @@
-jest.mock('pixi.js', () => {
-  return {
-    default: jest.requireActual('pixi.js-legacy')
-  };
-});
+require("canvas");
+require("jest-canvas-mock");
+
+jest.mock("pixi.js", () => jest.requireActual("pixi.js-legacy"));

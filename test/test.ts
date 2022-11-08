@@ -1,6 +1,6 @@
-import { creatingApp } from '../js/game';
+import { creatingApp } from "../src/game";
 
-test('App created', () => {
+test("App created", () => {
   const app = creatingApp();
   expect(app).toBeDefined();
 });
