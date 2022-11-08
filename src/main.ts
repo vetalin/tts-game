@@ -1,3 +1,3 @@
-import { creatingApp } from "./game";
+import { creatingApp } from "./game/game";
 
 creatingApp();

@@ -1,4 +1,5 @@
-import { Application, Sprite, Ticker } from "pixi.js";
+import { Application, IPointData, Sprite, Ticker } from "pixi.js";
+import { wait } from "../helper";
 
 interface MainPersonProps {
   speed?: number;
@@ -15,9 +16,12 @@ const initialProps: MainPersonProps = {
 };
 
 export class MainPerson {
+  public id: string = Math.random().toString(36).substr(2, 9);
+
   constructor(
     private app: Application,
-    public props: MainPersonProps = initialProps
+    public props: MainPersonProps = initialProps,
+    public isSelected: boolean = false
   ) {}
   private person: Sprite | null = null;
 
@@ -25,6 +29,9 @@ export class MainPerson {
     x: this.props.startX || 0,
     y: this.props.startY || 0,
   };
+
+  selectedColor = 0xff0000;
+  normalColor = 0xffffff;
 
   buildPerson(): void {
     this.mergeProps();
@@ -50,12 +57,28 @@ export class MainPerson {
     person.scale.set(this.props.scale);
     person.anchor.set(0.5, 0.9);
 
-    person.tint = Math.random() * 0xffffff;
-
     this.app.stage.addChild(person);
     this.person = person;
 
     this.initListeners();
+  }
+
+  public async selectPerson(): Promise<void> {
+    // wait before change position
+    await wait(0);
+    if (this.person === null) {
+      throw new Error("Person is not created");
+    }
+    this.isSelected = !this.isSelected;
+    this.person.tint = this.isSelected ? this.selectedColor : this.normalColor;
+  }
+
+  public unselectPerson(): void {
+    if (this.person === null) {
+      throw new Error("Person is not created");
+    }
+    this.isSelected = false;
+    this.person.tint = this.normalColor;
   }
 
   private initListeners(): void {
@@ -97,7 +120,10 @@ export class MainPerson {
   }
 
   private mouseListener(): void {
-    window.addEventListener("click", (event) => {
+    this.app.stage.on("click", (event) => {
+      if (!this.isSelected) {
+        return;
+      }
       if (this.person === null) {
         throw new Error("Person is not created");
       }
@@ -130,5 +156,13 @@ export class MainPerson {
 
   private mergeProps(): void {
     this.props = { ...initialProps, ...this.props };
+  }
+
+  containsPoint(point: IPointData): boolean {
+    if (this.person === null) {
+      throw new Error("Person is not created");
+    }
+
+    return this.person.containsPoint(point);
   }
 }
