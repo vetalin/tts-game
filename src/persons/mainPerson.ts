@@ -1,5 +1,5 @@
 import { Application, IPointData, Sprite, Ticker } from "pixi.js";
-import { wait } from "../helper";
+import { generateId, wait } from "../helper";
 
 interface MainPersonProps {
   speed?: number;
@@ -16,7 +16,7 @@ const initialProps: MainPersonProps = {
 };
 
 export class MainPerson {
-  public id: string = Math.random().toString(36).substr(2, 9);
+  public id: string = generateId();
 
   constructor(
     private app: Application,
@@ -64,8 +64,8 @@ export class MainPerson {
   }
 
   public async selectPerson(): Promise<void> {
-    // wait before change position
-    await wait(0);
+    // Меняет приоритет в очереди в зависимости от выбранности
+    await wait(this.isSelected ? 1 : 3);
     if (this.person === null) {
       throw new Error("Person is not created");
     }
@@ -73,7 +73,7 @@ export class MainPerson {
     this.person.tint = this.isSelected ? this.selectedColor : this.normalColor;
   }
 
-  public unselectPerson(): void {
+  public async unselectPerson(): Promise<void> {
     if (this.person === null) {
       throw new Error("Person is not created");
     }
@@ -120,7 +120,9 @@ export class MainPerson {
   }
 
   private mouseListener(): void {
-    this.app.stage.on("click", (event) => {
+    this.app.stage.on("click", async (event) => {
+      // Приоритет в очереди, должен срабатывать после события selectPerson
+      await wait(2);
       if (!this.isSelected) {
         return;
       }
