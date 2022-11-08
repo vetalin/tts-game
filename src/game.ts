@@ -10,7 +10,17 @@ export const creatingApp = () => {
   document.body.appendChild(app.view as any);
 
   new LandBuilder(app).buildLand();
-  const mainPerson = new MainPerson(app);
+  const mainPerson = new MainPerson(app, {
+    startX: 100,
+    startY: 100,
+  });
   mainPerson.buildPerson();
+  const secondMainPerson = new MainPerson(app, {
+    speed: 10,
+    scale: 0.3,
+    startX: 200,
+    startY: 200,
+  });
+  secondMainPerson.buildPerson();
   return app;
 };
