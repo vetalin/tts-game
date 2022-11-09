@@ -1,5 +1,5 @@
 import { LandBuilder } from "../land/landBuilder";
-import { MainPerson } from "../persons/mainPerson";
+import { BasePerson } from "../persons/basePerson";
 import { Application } from "pixi.js";
 import { SelectPersonsService } from "./selectPersons.service";
 import { Ork } from "../persons/ork";
@@ -13,18 +13,18 @@ export const creatingApp = () => {
   document.body.appendChild(app.view as any);
 
   new LandBuilder(app).buildLand();
-  const mainPerson = new MainPerson(app, {
-    startX: 100,
-    startY: 100,
-  });
-  mainPerson.initPerson();
-  const secondMainPerson = new MainPerson(app, {
-    speed: 10,
-    scale: 0.3,
-    startX: 200,
-    startY: 200,
-  });
-  secondMainPerson.initPerson();
+  // const mainPerson = new BasePerson(app, {
+  //   startX: 100,
+  //   startY: 100,
+  // });
+  // mainPerson.initPerson();
+  // const secondMainPerson = new BasePerson(app, {
+  //   speed: 10,
+  //   scale: 0.3,
+  //   startX: 200,
+  //   startY: 200,
+  // });
+  // secondMainPerson.initPerson();
 
   const ork = new Ork(app, {
     startX: 500,
@@ -33,8 +33,8 @@ export const creatingApp = () => {
   ork.initPerson();
 
   const selectPersonsService = new SelectPersonsService(app);
-  selectPersonsService.watchToSelect(mainPerson);
-  selectPersonsService.watchToSelect(secondMainPerson);
+  // selectPersonsService.watchToSelect(mainPerson);
+  // selectPersonsService.watchToSelect(secondMainPerson);
   selectPersonsService.watchToSelect(ork);
   selectPersonsService.initListeners();
 

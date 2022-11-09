@@ -1,16 +1,16 @@
 import { Application } from "pixi.js";
-import { MainPerson } from "../persons/mainPerson";
+import { BasePerson } from "../persons/basePerson";
 
 export class SelectPersonsService {
   constructor(private app: Application) {}
 
-  private persons: MainPerson[] = [];
+  private persons: BasePerson[] = [];
 
-  public watchToSelect(person: MainPerson): void {
+  public watchToSelect(person: BasePerson): void {
     this.persons.push(person);
   }
 
-  public selectPerson(selectedPerson: MainPerson): void {
+  public selectPerson(selectedPerson: BasePerson): void {
     this.persons.forEach((currentPerson) => {
       if (currentPerson.id === selectedPerson.id) {
         currentPerson.selectPerson();
