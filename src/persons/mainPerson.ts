@@ -1,7 +1,8 @@
 import { Application, IPointData, Sprite, Ticker } from "pixi.js";
 import { generateId, wait } from "../helper";
+import { AnimatedSprite } from "pixi.js-legacy";
 
-interface MainPersonProps {
+export interface MainPersonProps {
   speed?: number;
   scale?: number;
   startX?: number;
@@ -23,6 +24,7 @@ export class MainPerson {
     public props: MainPersonProps = initialProps,
     public isSelected: boolean = false
   ) {}
+
   private person: Sprite | null = null;
 
   private futurePosition = {
@@ -33,15 +35,9 @@ export class MainPerson {
   selectedColor = 0xff0000;
   normalColor = 0xffffff;
 
-  buildPerson(): void {
+  initPerson(): void {
     this.mergeProps();
 
-    if (this.props.startX === undefined) {
-      throw new Error("Start x is not defined");
-    }
-    if (this.props.startY === undefined) {
-      throw new Error("Start y is not defined");
-    }
     if (this.props.scale === undefined) {
       throw new Error("Scale is not defined");
     }
@@ -49,13 +45,7 @@ export class MainPerson {
       throw new Error("Speed is not defined");
     }
 
-    const personImage = require("../../img/person.png");
-    const person = Sprite.from(personImage);
-
-    person.x = this.props.startX;
-    person.y = this.props.startY;
-    person.scale.set(this.props.scale);
-    person.anchor.set(0.5, 0.9);
+    const person = this.buildPerson();
 
     this.app.stage.addChild(person);
     this.person = person;
@@ -79,6 +69,24 @@ export class MainPerson {
     }
     this.isSelected = false;
     this.person.tint = this.normalColor;
+  }
+
+  protected buildPerson(): Sprite | AnimatedSprite {
+    if (this.props.startX === undefined) {
+      throw new Error("Start x is not defined");
+    }
+    if (this.props.startY === undefined) {
+      throw new Error("Start y is not defined");
+    }
+
+    const personImage = require("../../img/person.png");
+    const person = Sprite.from(personImage);
+
+    person.x = this.props.startX;
+    person.y = this.props.startY;
+    person.scale.set(this.props.scale);
+    person.anchor.set(0.5, 0.9);
+    return person;
   }
 
   private initListeners(): void {

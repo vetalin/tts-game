@@ -2,6 +2,7 @@ import { LandBuilder } from "../land/landBuilder";
 import { MainPerson } from "../persons/mainPerson";
 import { Application } from "pixi.js";
 import { SelectPersonsService } from "./selectPersons.service";
+import { Ork } from "../persons/ork";
 
 export const creatingApp = () => {
   const app = new Application({
@@ -16,18 +17,25 @@ export const creatingApp = () => {
     startX: 100,
     startY: 100,
   });
-  mainPerson.buildPerson();
+  mainPerson.initPerson();
   const secondMainPerson = new MainPerson(app, {
     speed: 10,
     scale: 0.3,
     startX: 200,
     startY: 200,
   });
-  secondMainPerson.buildPerson();
+  secondMainPerson.initPerson();
+
+  const ork = new Ork(app, {
+    startX: 500,
+    startY: 500,
+  });
+  ork.initPerson();
 
   const selectPersonsService = new SelectPersonsService(app);
   selectPersonsService.watchToSelect(mainPerson);
   selectPersonsService.watchToSelect(secondMainPerson);
+  selectPersonsService.watchToSelect(ork);
   selectPersonsService.initListeners();
 
   return app;
