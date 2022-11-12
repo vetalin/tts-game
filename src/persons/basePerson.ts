@@ -157,17 +157,26 @@ export class BasePerson {
       futurePosition.y !== currentSprite.y
     ) {
       this.store.setStoreValue("personSpriteState", "run");
+      if (
+        futurePosition.x >= currentSprite.x &&
+        futurePosition.x - speed <= currentSprite.x &&
+        futurePosition.y >= currentSprite.y &&
+        futurePosition.y - speed <= currentSprite.y
+      ) {
+        this.setPositionPerson(futurePosition.x, futurePosition.y);
+      }
+
       if (futurePosition.x > currentSprite.x) {
-        currentSprite.x += speed;
+        this.setPositionPerson(currentSprite.x + speed, currentSprite.y);
       }
       if (futurePosition.x < currentSprite.x) {
-        currentSprite.x -= speed;
+        this.setPositionPerson(currentSprite.x - speed, currentSprite.y);
       }
       if (futurePosition.y > currentSprite.y) {
-        currentSprite.y += speed;
+        this.setPositionPerson(currentSprite.x, currentSprite.y + speed);
       }
       if (futurePosition.y < currentSprite.y) {
-        currentSprite.y -= speed;
+        this.setPositionPerson(currentSprite.x, currentSprite.y - speed);
       }
     } else {
       this.store.setStoreValue("personSpriteState", "idle");
@@ -188,9 +197,17 @@ export class BasePerson {
   }
 
   private animationSetPosition(x: number, y: number): void {
-    this.flipPersonToFuturePosition(x, y);
+    const floorPoint = {
+      x: Math.floor(x),
+      y: Math.floor(y),
+    };
 
-    this.store.setStoreValue("futurePosition", { x, y });
+    this.flipPersonToFuturePosition(floorPoint.x, floorPoint.y);
+
+    this.store.setStoreValue("futurePosition", {
+      x: floorPoint.x,
+      y: floorPoint.y,
+    });
   }
 
   private flipPersonToFuturePosition(x: number, y: number) {
@@ -226,5 +243,21 @@ export class BasePerson {
     }
 
     return sprites[spriteState] as AnimatedSprite;
+  }
+
+  private setPositionPerson(x: number, y: number) {
+    const sprites = this.store.getStoreValue("sprites");
+
+    if (sprites === null) {
+      throw new Error("Sprites is not created");
+    }
+
+    Object.values(sprites).map((sprite) => {
+      if (!sprite) {
+        return;
+      }
+      sprite.x = x;
+      sprite.y = y;
+    });
   }
 }
