@@ -1,20 +1,15 @@
-import {
-  Application,
-  IPointData,
-  Sprite,
-  Ticker,
-  AnimatedSprite,
-} from "pixi.js";
+import { Application, IPointData, Ticker, AnimatedSprite } from "pixi.js";
 import { generateId, wait } from "../helper";
-import isEqual from "lodash.isequal";
-import cloneDeep from "lodash.clonedeep";
+import { Store } from "../service/store";
+import { PersonSprites, PersonSpriteState } from "./interface";
 
 export interface MainPersonProps {
-  speed?: number;
-  scale?: number;
-  startX?: number;
-  startY?: number;
-  animationSpeed?: number;
+  speed: number;
+  scale: number;
+  startX: number;
+  startY: number;
+  animationSpeed: number;
+  anchor: number[];
 }
 
 const initialProps: MainPersonProps = {
@@ -23,121 +18,98 @@ const initialProps: MainPersonProps = {
   startX: 0,
   startY: 0,
   animationSpeed: 0.5,
+  anchor: [0.5, 0.9],
 };
 
-interface PersonState {
-  isIdle: boolean;
-  isRunning: boolean;
+export interface PersonState {
+  personSpriteState: PersonSpriteState | null;
+  personProps: MainPersonProps;
+  sprites: PersonSprites | null;
+  isSelected: boolean;
+  futurePosition: IPointData | null;
+  selectedColor: number;
+  normalColor: number;
 }
 
 const initialState: PersonState = {
-  isIdle: true,
-  isRunning: false,
+  personSpriteState: null,
+  sprites: null,
+  isSelected: false,
+  futurePosition: null,
+  selectedColor: 0x00ff00,
+  normalColor: 0xffffff,
+  personProps: initialProps,
 };
 
 export class BasePerson {
-  get personRunSprite(): AnimatedSprite | null {
-    return this._personRunSprite;
-  }
-
-  set personRunSprite(value: AnimatedSprite | null) {
-    this._personRunSprite = value;
-  }
   public id: string = generateId();
+
+  protected store = new Store(
+    this.protectedStore ? this.protectedStore : initialState
+  );
 
   constructor(
     private app: Application,
-    public props: MainPersonProps = initialProps,
-    public isSelected: boolean = false
+    public protectedStore: PersonState | null,
+    public protectedProps: MainPersonProps | null
   ) {}
 
-  protected person: Sprite | AnimatedSprite | null = null;
-
-  private futurePosition = {
-    x: this.props.startX || 0,
-    y: this.props.startY || 0,
-  };
-
-  private state: PersonState = initialState;
-  private prevState: PersonState = initialState;
-
-  private _personRunSprite: AnimatedSprite | null = null;
-
-  selectedColor = 0x00ff00;
-  normalColor = 0xffffff;
-
   initPerson(): void {
-    this.mergeProps();
-
-    if (this.props.scale === undefined) {
-      throw new Error("Scale is not defined");
-    }
-    if (this.props.speed === undefined) {
-      throw new Error("Speed is not defined");
+    const sprites = this.store.getStoreValue("sprites");
+    if (sprites === null) {
+      return;
     }
 
-    const person = this.buildPersonForChild();
+    this.store.setStoreValue(
+      "personProps",
+      this.protectedProps ? this.protectedProps : initialProps
+    );
 
-    this.updatePersonInStage(person);
-    this.person = person;
+    this.buildPersonsSprites();
 
     this.initListeners();
   }
 
-  protected buildPersonForChild(): Sprite | AnimatedSprite {
-    return this.buildPerson();
-  }
-
-  private updatePersonInStage(person: Sprite | AnimatedSprite): void {
-    if (this.person !== null) {
-      this.app.stage.removeChild(this.person);
-    }
-    this.app.stage.addChild(person);
-  }
-
   public async selectPerson(): Promise<void> {
+    const isSelected = this.store.getStoreValue("isSelected");
+    const selectedColor = this.store.getStoreValue("selectedColor");
+    const normalColor = this.store.getStoreValue("normalColor");
     // Меняет приоритет в очереди в зависимости от выбранности
-    await wait(this.isSelected ? 1 : 3);
-    if (this.person === null) {
-      throw new Error("Person is not created");
-    }
-    this.isSelected = !this.isSelected;
-    this.person.tint = this.isSelected ? this.selectedColor : this.normalColor;
+    await wait(isSelected ? 1 : 3);
+    this.store.setStoreValue("isSelected", !isSelected);
+    const currentSprite = this.getCurrentSprite();
+    currentSprite.tint = isSelected ? normalColor : selectedColor;
   }
 
   public async unselectPerson(): Promise<void> {
-    if (this.person === null) {
-      throw new Error("Person is not created");
-    }
-    this.isSelected = false;
-    this.person.tint = this.normalColor;
+    const normalColor = this.store.getStoreValue("normalColor");
+    const currentSprite = this.getCurrentSprite();
+
+    this.store.setStoreValue("isSelected", false);
+    currentSprite.tint = normalColor;
   }
 
-  private buildPerson(
-    sprite: AnimatedSprite | null = null
-  ): Sprite | AnimatedSprite {
-    if (this.props.startX === undefined) {
-      throw new Error("Start x is not defined");
-    }
-    if (this.props.startY === undefined) {
-      throw new Error("Start y is not defined");
+  private buildPersonsSprites(): void {
+    const sprites = this.store.getStoreValue("sprites");
+    if (sprites === null) {
+      throw new Error("Sprites is not created");
     }
 
-    const personImage = require("../../img/person.png");
-    const person = sprite ? sprite : Sprite.from(personImage);
+    const personProps = this.store.getStoreValue("personProps");
 
-    person.x = this.person?.x ?? this.props.startX;
-    person.y = this.person?.y ?? this.props.startY;
-    person.scale.set(this.props.scale);
-    person.anchor.set(0.5, 0.9);
-
-    if (sprite instanceof AnimatedSprite) {
-      (person as AnimatedSprite).animationSpeed =
-        this.props.animationSpeed || 1;
-      (person as AnimatedSprite).play();
-    }
-
-    return person;
+    Object.values(sprites).map((sprite) => {
+      if (!sprite) {
+        return;
+      }
+      sprite.visible = true;
+      sprite.x = personProps.startX;
+      sprite.y = personProps.startY;
+      sprite.scale.set(personProps.scale);
+      sprite.animationSpeed = personProps.animationSpeed;
+      sprite.anchor.set(...personProps.anchor);
+      sprite.play();
+      this.app.stage.addChild(sprite);
+    });
   }
 
   private initListeners(): void {
@@ -148,132 +120,91 @@ export class BasePerson {
   private personMotion(): void {
     const ticker = new Ticker();
     ticker.add(this.animationOfMovement.bind(this));
-    debugger;
-    if (
-      this.person instanceof AnimatedSprite &&
-      this.personRunSprite !== null &&
-      this.getState().isRunning
-    ) {
-      ticker.add(this.animatePersonSpriteRun.bind(this));
-    }
     ticker.start();
   }
 
   private animationOfMovement() {
-    if (this.person === null) {
-      throw new Error("Person is not created");
-    }
-    if (this.props.speed === undefined) {
-      throw new Error("Speed is not defined");
+    const futurePosition = this.store.getStoreValue("futurePosition");
+    const currentSprite = this.getCurrentSprite();
+    const speed = this.store.getStoreValue("personProps").speed;
+
+    if (futurePosition === null) {
+      return;
     }
 
     if (
-      this.futurePosition.x !== this.person.x ||
-      this.futurePosition.y !== this.person.y
+      futurePosition.x !== currentSprite.x ||
+      futurePosition.y !== currentSprite.y
     ) {
-      this.setState({
-        isIdle: false,
-        isRunning: true,
-      });
-      if (this.futurePosition.x > this.person.x) {
-        this.person.x += this.props.speed;
+      this.store.setStoreValue("personSpriteState", "run");
+      if (futurePosition.x > currentSprite.x) {
+        currentSprite.x += speed;
       }
-      if (this.futurePosition.x < this.person.x) {
-        this.person.x -= this.props.speed;
+      if (futurePosition.x < currentSprite.x) {
+        currentSprite.x -= speed;
       }
-      if (this.futurePosition.y > this.person.y) {
-        this.person.y += this.props.speed;
+      if (futurePosition.y > currentSprite.y) {
+        currentSprite.y += speed;
       }
-      if (this.futurePosition.y < this.person.y) {
-        this.person.y -= this.props.speed;
+      if (futurePosition.y < currentSprite.y) {
+        currentSprite.y -= speed;
       }
     } else {
-      this.setState({
-        isIdle: true,
-        isRunning: false,
-      });
-    }
-  }
-
-  private animatePersonSpriteRun() {
-    if (this.person === null) {
-      throw new Error("Person is not created");
-    }
-    const state = this.getState();
-
-    if (
-      state.isRunning &&
-      !this.prevState.isRunning &&
-      this.personRunSprite !== null
-    ) {
-      debugger;
-      const runningPerson = this.buildPerson(this.personRunSprite);
-      this.updatePersonInStage(runningPerson);
+      this.store.setStoreValue("personSpriteState", "idle");
     }
   }
 
   private mouseListener(): void {
     this.app.stage.on("click", async (event) => {
+      const isSelected = this.store.getStoreValue("isSelected");
+
       // Приоритет в очереди, должен срабатывать после события selectPerson
       await wait(2);
-      if (!this.isSelected) {
+      if (!isSelected) {
         return;
-      }
-      if (this.person === null) {
-        throw new Error("Person is not created");
       }
       this.animationSetPosition(event.clientX, event.clientY);
     });
   }
 
   private animationSetPosition(x: number, y: number): void {
-    if (this.person === null) {
-      throw new Error("Person is not created");
-    }
-
     this.flipPersonToFuturePosition(x, y);
 
-    this.futurePosition.x = x;
-    this.futurePosition.y = y;
+    this.store.setStoreValue("futurePosition", { x, y });
   }
 
   private flipPersonToFuturePosition(x: number, y: number) {
-    if (this.person === null) {
-      throw new Error("Person is not created");
-    }
-    if (x > this.person.x) {
-      this.person.scale.x = this.props.scale || 1;
-    }
-    if (x < this.person.x) {
-      this.person.scale.x *= -1;
-    }
-  }
+    const currentSprite = this.getCurrentSprite();
+    const personProps = this.store.getStoreValue("personProps");
 
-  private mergeProps(): void {
-    this.props = { ...initialProps, ...this.props };
+    if (x > currentSprite.x) {
+      currentSprite.scale.x = personProps.scale || 1;
+    }
+    if (x < currentSprite.x) {
+      currentSprite.scale.x *= -1;
+    }
   }
 
   containsPoint(point: IPointData): boolean {
-    if (this.person === null) {
-      throw new Error("Person is not created");
-    }
+    const currentSprite = this.getCurrentSprite();
 
-    return this.person.containsPoint(point);
+    return currentSprite.containsPoint(point);
   }
 
-  private setState(newState: Partial<PersonState>): void {
-    if (isEqual(this.state, newState)) {
-      return;
+  private getCurrentSprite(): AnimatedSprite {
+    const sprites = this.store.getStoreValue("sprites");
+    const spriteState = this.store.getStoreValue("personSpriteState");
+
+    if (sprites === null) {
+      throw new Error("Sprites is not created");
+    }
+    if (spriteState === null) {
+      throw new Error("Sprite state is not created");
+    }
+    if (sprites[spriteState] === null) {
+      throw new Error("Sprite is not created");
     }
 
-    this.prevState = cloneDeep(this.state);
-    this.state = {
-      ...this.state,
-      ...newState,
-    };
-  }
-
-  private getState(): PersonState {
-    return this.state;
+    return sprites[spriteState] as AnimatedSprite;
   }
 }
