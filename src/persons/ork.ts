@@ -12,7 +12,7 @@ const initialProps: OrkProps = {
   scale: 0.5,
   startX: 200,
   startY: 500,
-  animationSpeed: 0.5,
+  animationSpeed: 0.6,
   anchor: [0.5, 0.9],
 };
 
@@ -27,26 +27,38 @@ const initialStore: OrkState = {
 };
 
 export class Ork extends BasePerson {
-  constructor(app: Application) {
-    super(app, initialStore, initialProps);
+  constructor(app: Application, props?: Partial<OrkProps>) {
+    const mergedProps = {
+      ...initialProps,
+      ...props,
+    };
+    super(app, initialStore, mergedProps);
     this.getSprites().then(this.initPerson.bind(this));
   }
 
   private async getSprites(): Promise<void> {
-    const imageSprite = require("../../img/sprites/person/ork/idle/spritesheet.png");
-    const idleSpritesheet = require("../../img/sprites/person/ork/idle/spritesheet.json");
+    const sprites = await SpriteFabric.build([
+      {
+        pathToSpriteJson: require("../../img/sprites/person/ork/idle/spritesheet.json"),
+        pathToSpriteImage: require("../../img/sprites/person/ork/idle/spritesheet.png"),
+        state: "idle",
+      },
+      {
+        pathToSpriteJson: require("../../img/sprites/person/ork/attack/spritesheet.json"),
+        pathToSpriteImage: require("../../img/sprites/person/ork/attack/spritesheet.png"),
+        state: "attack",
+      },
+      {
+        pathToSpriteJson: require("../../img/sprites/person/ork/run/spritesheet.json"),
+        pathToSpriteImage: require("../../img/sprites/person/ork/run/spritesheet.png"),
+        state: "run",
+      },
+    ]);
 
-    const baseTexture = BaseTexture.from(imageSprite);
+    if (this.store.getStoreValue("sprites") !== null) {
+      console.log("sprites already exist");
+    }
 
-    const spritesheet = new Spritesheet(baseTexture, idleSpritesheet);
-
-    await spritesheet.parse();
-
-    this.store.setStoreValue("sprites", {
-      idle: new AnimatedSprite(spritesheet.animations.idle),
-      run: null,
-      attack: null,
-      death: null,
-    });
+    this.store.setStoreValue("sprites", sprites);
   }
 }

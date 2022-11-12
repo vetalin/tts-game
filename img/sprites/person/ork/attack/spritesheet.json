@@ -1,0 +1,258 @@
+{
+	"frames": {
+		"0_Orc_Run Slashing_000.png": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_001.png": {
+			"frame": {
+				"x": 903,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_002.png": {
+			"frame": {
+				"x": 1805,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_003.png": {
+			"frame": {
+				"x": 1,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_004.png": {
+			"frame": {
+				"x": 903,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_005.png": {
+			"frame": {
+				"x": 1805,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_006.png": {
+			"frame": {
+				"x": 1,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_007.png": {
+			"frame": {
+				"x": 903,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_008.png": {
+			"frame": {
+				"x": 1805,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_009.png": {
+			"frame": {
+				"x": 2707,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_010.png": {
+			"frame": {
+				"x": 2707,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Slashing_011.png": {
+			"frame": {
+				"x": 2707,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "img/sprites/person/ork/attack/spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 3608,
+			"h": 2706
+		},
+		"scale": "1"
+	},
+  "animations": {
+    "attack": ["0_Orc_Run Slashing_000.png", "0_Orc_Run Slashing_001.png", "0_Orc_Run Slashing_002.png", "0_Orc_Run Slashing_003.png", "0_Orc_Run Slashing_004.png", "0_Orc_Run Slashing_005.png", "0_Orc_Run Slashing_006.png", "0_Orc_Run Slashing_007.png", "0_Orc_Run Slashing_008.png", "0_Orc_Run Slashing_009.png", "0_Orc_Run Slashing_010.png", "0_Orc_Run Slashing_011.png"]
+  }
+}

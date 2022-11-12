@@ -1,12 +1,10 @@
-import { AnimatedSprite, Assets } from "pixi.js";
+import { AnimatedSprite, BaseTexture, Spritesheet, utils } from "pixi.js";
 import { PersonSpriteState } from "../interface";
-
-type FileNameCreator = (spriteNumber: number) => string;
+import { ISpritesheetData } from "@pixi/spritesheet/lib/Spritesheet";
 
 export interface SpriteFabricInput {
-  directory: string;
-  filename: (spriteNumber: number) => string;
-  filesCount: number;
+  pathToSpriteJson: ISpritesheetData;
+  pathToSpriteImage: string;
   state: PersonSpriteState;
 }
 
@@ -14,52 +12,30 @@ export type SpriteFabricOutput = {
   [key in Partial<PersonSpriteState>]: AnimatedSprite | null;
 };
 
-type Textures = {
-  [key in Partial<PersonSpriteState>]: string[];
-};
-
 export const SpriteFabric = {
-  async build(inputs: SpriteFabricInput[]): Promise<SpriteFabricOutput> {
-    const textures = await this.getTextures(inputs);
+  async build(fabricInput: SpriteFabricInput[]): Promise<SpriteFabricOutput> {
+    // todo: научиться работать с кешем
+    utils.clearTextureCache();
 
-    return Object.entries(textures).reduce(
-      (acc, [keyTexture, valueTexture]) => {
-        acc[keyTexture as keyof SpriteFabricOutput] =
-          AnimatedSprite.fromImages(valueTexture);
-        return acc;
-      },
-      {} as SpriteFabricOutput
-    );
-  },
-
-  async getTextures(inputs: SpriteFabricInput[]): Promise<Textures> {
-    const spriteStates = inputs.map((input) => input.state);
-    const texturesForStates = await Promise.all(
-      spriteStates.map((state, index) => {
-        const currentSprite = inputs[index];
-        return this.getTexture(
-          currentSprite.directory,
-          currentSprite.filename,
-          currentSprite.filesCount
+    const buildedSpritePromise = await Promise.all(
+      fabricInput.map(async (input) => {
+        const baseTexture = BaseTexture.from(input.pathToSpriteImage);
+        const spritesheet = new Spritesheet(
+          baseTexture,
+          input.pathToSpriteJson
         );
+
+        return {
+          state: input.state,
+          pureSprite: spritesheet,
+          sprite: await spritesheet.parse(),
+        };
       })
     );
 
-    return texturesForStates.reduce((acc, value, index) => {
-      acc[spriteStates[index]] = value;
+    return buildedSpritePromise.reduce((acc, { state, pureSprite }) => {
+      acc[state] = new AnimatedSprite(pureSprite.animations[state]);
       return acc;
-    }, {} as Textures);
-  },
-
-  getTexture(
-    directory: string,
-    filename: FileNameCreator,
-    count: number
-  ): Promise<string[]> {
-    return Promise.all(
-      Array.from({ length: count }, (_, index) => {
-        return Assets.load(`${directory}/${filename(index)}`);
-      })
-    );
+    }, {} as SpriteFabricOutput);
   },
 };

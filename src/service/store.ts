@@ -5,8 +5,8 @@ export class Store<T> {
   private store: T;
 
   constructor(initialState: T) {
-    this.prevStore = initialState;
-    this.store = initialState;
+    this.prevStore = cloneDeep(initialState);
+    this.store = cloneDeep(initialState);
   }
 
   getStore(): T {
@@ -15,7 +15,7 @@ export class Store<T> {
 
   setStore(newState: T): void {
     this.prevStore = cloneDeep(this.store);
-    this.store = newState;
+    this.store = cloneDeep(newState);
   }
 
   getStoreValue<K extends keyof T>(key: K): T[K] {

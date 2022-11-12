@@ -1,5 +1,5 @@
 import { LandBuilder } from "../land/landBuilder";
-import { Application } from "pixi.js";
+import { Application, utils } from "pixi.js";
 import { SelectPersonsService } from "./selectPersons.service";
 import { Ork } from "../persons/ork";
 
@@ -13,10 +13,19 @@ export const creatingApp = async () => {
 
   new LandBuilder(app).buildLand();
 
-  const ork = new Ork(app);
+  const ork1 = new Ork(app, {
+    startX: 200,
+    startY: 600,
+  });
+
+  const ork2 = new Ork(app, {
+    startX: 800,
+    startY: 600,
+  });
 
   const selectPersonsService = new SelectPersonsService(app);
-  selectPersonsService.watchToSelect(ork);
+  selectPersonsService.watchToSelect(ork1);
+  selectPersonsService.watchToSelect(ork2);
   selectPersonsService.initListeners();
 
   return app;

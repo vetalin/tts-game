@@ -44,7 +44,7 @@ const initialState: PersonState = {
 export class BasePerson {
   public id: string = generateId();
 
-  protected store = new Store(
+  protected store: Store<PersonState> = new Store<PersonState>(
     this.protectedStore ? this.protectedStore : initialState
   );
 
@@ -101,7 +101,7 @@ export class BasePerson {
       if (!sprite) {
         return;
       }
-      sprite.visible = true;
+      sprite.visible = false;
       sprite.x = personProps.startX;
       sprite.y = personProps.startY;
       sprite.scale.set(personProps.scale);
@@ -120,7 +120,27 @@ export class BasePerson {
   private personMotion(): void {
     const ticker = new Ticker();
     ticker.add(this.animationOfMovement.bind(this));
+    ticker.add(this.animationSpriteFromState.bind(this));
     ticker.start();
+  }
+
+  private animationSpriteFromState(): void {
+    const personSpriteState = this.store.getStoreValue("personSpriteState");
+    const sprites = this.store.getStoreValue("sprites");
+    const currentSprite = this.getCurrentSprite();
+
+    if (personSpriteState === null || sprites === null) {
+      return;
+    }
+
+    Object.values(sprites).map((sprite) => {
+      if (!sprite) {
+        return;
+      }
+      sprite.visible = false;
+    });
+
+    currentSprite.visible = true;
   }
 
   private animationOfMovement() {

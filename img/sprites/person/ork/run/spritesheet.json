@@ -1,0 +1,258 @@
+{
+	"frames": {
+		"0_Orc_Run Throwing_000.png": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_001.png": {
+			"frame": {
+				"x": 903,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_002.png": {
+			"frame": {
+				"x": 1805,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_003.png": {
+			"frame": {
+				"x": 1,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_004.png": {
+			"frame": {
+				"x": 903,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_005.png": {
+			"frame": {
+				"x": 1805,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_006.png": {
+			"frame": {
+				"x": 1,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_007.png": {
+			"frame": {
+				"x": 903,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_008.png": {
+			"frame": {
+				"x": 1805,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_009.png": {
+			"frame": {
+				"x": 2707,
+				"y": 1,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_010.png": {
+			"frame": {
+				"x": 2707,
+				"y": 903,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		},
+		"0_Orc_Run Throwing_011.png": {
+			"frame": {
+				"x": 2707,
+				"y": 1805,
+				"w": 900,
+				"h": 900
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 900,
+				"h": 900
+			},
+			"sourceSize": {
+				"w": 900,
+				"h": 900
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "img/sprites/person/ork/run/spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 3608,
+			"h": 2706
+		},
+		"scale": "1"
+	},
+  "animations": {
+    "run": ["0_Orc_Run Throwing_000.png", "0_Orc_Run Throwing_002.png", "0_Orc_Run Throwing_003.png", "0_Orc_Run Throwing_004.png", "0_Orc_Run Throwing_005.png", "0_Orc_Run Throwing_006.png", "0_Orc_Run Throwing_007.png", "0_Orc_Run Throwing_008.png", "0_Orc_Run Throwing_009.png", "0_Orc_Run Throwing_010.png", "0_Orc_Run Throwing_011.png"]
+  }
+}
