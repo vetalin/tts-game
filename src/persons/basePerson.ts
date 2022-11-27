@@ -185,14 +185,13 @@ export class BasePerson {
 
   private mouseListener(): void {
     this.app.stage.on("click", async (event) => {
-      const isSelected = this.store.getStoreValue("isSelected");
-
       // Приоритет в очереди, должен срабатывать после события selectPerson
       await wait(2);
-      if (!isSelected) {
+      if (!this.store.getStoreValue("isSelected")) {
         return;
+      } else {
+        this.animationSetPosition(event.clientX, event.clientY);
       }
-      this.animationSetPosition(event.clientX, event.clientY);
     });
   }
 
@@ -228,7 +227,7 @@ export class BasePerson {
     return currentSprite.containsPoint(point);
   }
 
-  private getCurrentSprite(): AnimatedSprite {
+  getCurrentSprite(): AnimatedSprite {
     const sprites = this.store.getStoreValue("sprites");
     const spriteState = this.store.getStoreValue("personSpriteState");
 
@@ -243,6 +242,13 @@ export class BasePerson {
     }
 
     return sprites[spriteState] as AnimatedSprite;
+  }
+
+  attack(): Promise<void> {
+    this.getCurrentSprite().visible = false;
+    this.store.setStoreValue("personSpriteState", "attack");
+    this.getCurrentSprite().visible = true;
+    return wait(1000);
   }
 
   private setPositionPerson(x: number, y: number) {
